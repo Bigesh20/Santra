@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, signInWithRedirect, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -10,33 +10,34 @@ import {
 } from 'firebase/firestore';
 
 
+// Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCSGS2Sq94I4AOMzP86fJfCXHSL6LcA_mc",
-  authDomain: "santra-db.firebaseapp.com",
-  projectId: "santra-db",
-  storageBucket: "santra-db.appspot.com",
-  messagingSenderId: "1025298364448",
-  appId: "1:1025298364448:web:b02f98e427c555c3b5e445"
+  apiKey: "AIzaSyBleWldg8NXPWDodp8Lkb2TsVdXPjGdnFM",
+  authDomain: "big-db-70dd1.firebaseapp.com",
+  projectId: "big-db-70dd1",
+  storageBucket: "big-db-70dd1.appspot.com",
+  messagingSenderId: "94611600457",
+  appId: "1:94611600457:web:53843bbd5f33ddf2953b98"
 };
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters(
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters(
     {
         prompt: 'select_account'
     }
 );
 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 export const db = getFirestore();
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
   const userDocRef = doc(db, 'users', userAuth.uid)
   const userSnapshot = await getDoc(userDocRef);
   console.log(userSnapshot);
@@ -48,12 +49,19 @@ if(!userSnapshot.exists()){
   try{
     await setDoc(userDocRef, {
       displayName,
-      email, createdAt,
+      email, 
+      createdAt,
+      ...additionalInformation
     });
   }
   catch(error) {
+    
     console.log('error creating the user', error.message);
   }
 }
 return userDocRef;
+}
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
 }
