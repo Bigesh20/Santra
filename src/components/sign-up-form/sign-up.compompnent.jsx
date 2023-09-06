@@ -77,7 +77,7 @@ const handleSubmit = async (event) => {
                 type= "password"
                 required 
                 onChange= {handleChange} 
-                name = "confirmPasswrod"
+                name = "confirmPassword"
                 value = {confirmPassword} />
             
                 
