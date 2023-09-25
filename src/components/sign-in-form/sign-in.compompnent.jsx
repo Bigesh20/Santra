@@ -2,7 +2,7 @@ import { useState } from "react";
 import {signInWithGooglePopup, signInAuthUserWithEmailAndPassword} from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import './sign-in-form.styles.scss'
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
 
 const defaultFormFields = {
@@ -59,8 +59,8 @@ const handleSubmit = async (event) => {
                 value = {password} />
             
              <div className="buttons-container">
-             <Button buttonType='inverted' type = 'submit'>Sign In</Button>
-             <Button buttonType = 'google' type='button' onClick ={signInWithGoogle} >Google Sign In</Button>
+             <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type = 'submit'>Sign In</Button>
+             <Button buttonType ={BUTTON_TYPE_CLASSES.google} type='button' onClick ={signInWithGoogle} >Google Sign In</Button>
                 </div>   
 
                 
